@@ -1,0 +1,12 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/workspaces/rush02",
+            "binaryPath": "/workspaces/rush02/rush-02",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "stdio.h": "c"
+    }
+}

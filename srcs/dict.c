@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int is_number(char c_in)
 {
@@ -22,7 +23,7 @@ int is_number(char c_in)
 	return (0);
 }
 
-int load_dict(t_dict *dict, char *filepath)
+int load_dict(t_dict *p_dict, char *filepath)
 {
 	int		file_id;
 	//char	read_buffer[READ_MAX_SIZE] = "Empty File";
@@ -30,62 +31,75 @@ int load_dict(t_dict *dict, char *filepath)
 	// char	*join;
 	// char	**s2;
 	int		size;
-	int		count;
+	int		end_of_file;
+
+	if (!(p_dict = (t_dict *)malloc(sizeof(t_dict) * DEFAULT_DICT_SIZE)))
+ 		return (0);
 
 	if ((file_id = open(filepath, O_RDWR)) == 0)
 		return 0;
-	count = 0;
 	size = 0;
-    while (count < 3)
+	end_of_file = 0;
+    while (!end_of_file)
 	{
-		
-		while (is_number(file_char))
+		if ((size = read(file_id, &file_char, 1)) == 1)
 		{
-			if (read(file_id, &file_char, 1) != 1)
-				break;
-			printf("\nChar Read: %c, size: %d", file_char, size);	
+			//printf("%c", file_char);
+			printf("\nChar Read: %c, size: %d", file_char, size);
+			// if (file_char == 'x')
+			// 	end_of_file = 1;
 		}
-		
-		
-		size = read(file_id, &file_char, 1);
-		printf("\nChar Read: %c, size: %d", file_char, size);
+		while (!end_of_file && is_number(file_char))
+		{
+			if ((size = read(file_id, &file_char, 1)) == 0)
+			{
+				printf("Dict Error\n");
+				end_of_file = 1;
+			}
+			//printf("%c", file_char);
+			printf("\nChar Read: %c, size: %d", file_char, size);
+			// if (file_char == 'x')
+			// 	end_of_file = 1;
+		}
 
-		//read_buffer[size] = '\0';
-		//printf("\nLine Read: %s, size: %d", read_buffer, size);
-	 	// size = count_words(buf, charset);
-	 	// join = ft_strjoin(size, ft_split(read_buffer, charset), " ");
-		count++;
+		// size = read(file_id, &file_char, 1);
+		// printf("%c", file_char);
+		// printf("\nChar Read: %c, size: %d", file_char, size);
+
+		// end_of_file = 1;
+
 	}
 	close(file_id);
-	// s2 = ft_split(join, "\n");
-	// free(join);
+	free(p_dict);
 	return (0);
 }
 
-int	create_dict(t_dict *dict, int num_elements)
-{
-	// t_dict *p_dict;
-	// int		index;
+// int	create_dict(t_dict *dict, int num_elements)
+// {
+// 	t_dict *p_dict;
+// 	int		index;
 
-	// index = 0;
-	// if (!(p_dict = (t_dict *)malloc(sizeof(t_dict) * DEFAULT_DICT_SIZE)))
-	// 	return (0);
-	// while (index < DEFAULT_DICT_SIZE)
-	// {
-	// 	get_key_value(*str, p_dict[index].key, p_dict[index].value);
-	// 	index++;
-	// 	str++;
-	// }
-	// d[i].key = 0;
-	// d[i].value = 0;
-	return (0);
-}
+// 	index = 0;
+// 	if (!(p_dict = (t_dict *)malloc(sizeof(t_dict) * DEFAULT_DICT_SIZE)))
+// 		return (0);
+// 	while (index < DEFAULT_DICT_SIZE)
+// 	{
+// 		get_key_value(*str, p_dict[index].key, p_dict[index].value);
+// 		index++;
+// 		str++;
+// 	}
+// 	d[i].key = 0;
+// 	d[i].value = 0;
+// 	return (0);
+// }
 
 int	get_dict_value(t_dict *dict, char *key, char *value)
 {
 	// int i;
 	// int j;
 
+	if (key[0] == dict-> key[0])
+		value[0] = dict->value[0]; 
 	// i = 0;
 	// j = i;
 	// while (s[i] >= '0' && s[i] <= '9' && s[i])

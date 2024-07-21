@@ -22,8 +22,9 @@ typedef struct str_dict
 	char *value;
 } t_dict;
 
-int	load_dict(t_dict *dict, char *filepath);
-// int	create_dict(t_dict *dict, int num_elements);
+int	load_dict(t_dict **dict, char *filepath);
 int	get_dict_value(t_dict *dict, char *key, char *value);
+void print_dict(t_dict *dict);
+
 
 #	endif

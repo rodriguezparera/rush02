@@ -1,14 +1,37 @@
-#include "../includes/ft_string.h"
+#include "includes/ft_string.h"
 
-// int		ft_strlen(char *str)
-// {
-// 	int i;
+int ft_strlen(char *str)
+{
+    int n = 0;
+    while (*str) {
+        n++;
+        str++;
+    }
+    return n;
+}
 
-// 	i = 0;
-// 	while (*(str + i) != '\0')
-// 	    i++;
-//     return (i);
-// }
+int ft_strcmp(char *s1, char *s2)
+{	
+	while (*s1 && *s2)
+	{
+		if ((*s1-*s2) != 0)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+char    *ft_strcpy(char *dest, char *src)
+{
+	char	*ret;
+
+	ret = dest;
+	while (*src)
+		*dest++ = *src++;
+	return (ret);
+}
+
 
 // int		ft_total_len(char **str, int size, char *sep)
 // {

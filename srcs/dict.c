@@ -26,49 +26,96 @@ int is_number(char c_in)
 int load_dict(t_dict *p_dict, char *filepath)
 {
 	int		file_id;
-	//char	read_buffer[READ_MAX_SIZE] = "Empty File";
 	char    file_char;
-	// char	*join;
-	// char	**s2;
-	int		size;
+	ssize_t		size;
 	int		end_of_file;
+	char	key[500]="";
+	char	*p_key;
+	char	value[500]="";
+	char	*p_value;
 
 	if (!(p_dict = (t_dict *)malloc(sizeof(t_dict) * DEFAULT_DICT_SIZE)))
  		return (0);
 
-	if ((file_id = open(filepath, O_RDWR)) == 0)
-		return 0;
-	size = 0;
 	end_of_file = 0;
+	if ((file_id = open(filepath, O_RDWR)) == -1)
+	{
+        printf("Dict Error\n");
+		end_of_file = 1;
+    }
+	size = 0;
     while (!end_of_file)
 	{
-		if ((size = read(file_id, &file_char, 1)) == 1)
+		p_key = key;
+		if ((size = read(file_id, &file_char, 1)) > 0)
 		{
-			//printf("%c", file_char);
-			printf("\nChar Read: %c, size: %d", file_char, size);
-			// if (file_char == 'x')
-			// 	end_of_file = 1;
+			printf("%c", file_char);
+			*p_key++ = file_char;
 		}
-		while (!end_of_file && is_number(file_char))
+		else
+			end_of_file = 1;
+		if (size == -1)
 		{
-			if ((size = read(file_id, &file_char, 1)) == 0)
+			printf("Dict Error\n");
+			end_of_file = 1;
+		}
+		while ((!end_of_file) && (is_number(file_char)))
+		{
+			if ((size = read(file_id, &file_char, 1)) > 0)
+			{
+				printf("%c", file_char);
+				*p_key++ = file_char;
+			}
+			else
+				end_of_file = 1;
+			if (size == -1)
 			{
 				printf("Dict Error\n");
 				end_of_file = 1;
 			}
-			//printf("%c", file_char);
-			printf("\nChar Read: %c, size: %d", file_char, size);
-			// if (file_char == 'x')
-			// 	end_of_file = 1;
+		}
+
+		while ((!end_of_file) || (file_char == ' ') || (file_char == ':'))
+		{
+			if ((size = read(file_id, &file_char, 1)) > 0)
+			{
+				printf("%c", file_char);
+				*p_value++ = file_char;
+			}
+			else
+				end_of_file = 1;
+			if (size == -1)
+			{
+				printf("Dict Error\n");
+				end_of_file = 1;
+			}
+		}
+		p_value = value;
+		if (size > 0)
+			*p_value++ = file_char;
+		else
+			end_of_file = 1;
+		while ((!end_of_file) && file_char != '\n')
+		{
+			if ((size = read(file_id, &file_char, 1)) > 0)
+			{
+				printf("%c", file_char);
+				*p_value++ = file_char;
+			}
+			else
+				end_of_file = 1;
+			if (size == -1)
+			{
+				printf("Dict Error\n");
+				end_of_file = 1;
+			}
 		}
 
 		// size = read(file_id, &file_char, 1);
 		// printf("%c", file_char);
 		// printf("\nChar Read: %c, size: %d", file_char, size);
-
-		// end_of_file = 1;
-
 	}
+	printf("\nOut");
 	close(file_id);
 	free(p_dict);
 	return (0);

@@ -1,45 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: acarranz <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 13:31:02 by acarranz          #+#    #+#             */
-/*   Updated: 2024/07/20 13:34:46 by acarranz         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <stdlib.h>
-void zero(int n, number[n-3], number[n-2], number[n-1]) 
-{
-   
-    int size = (n * 3) -1;  
-    char *zeros = malloc(size * sizeof(char));
-
-    if (zeros == NULL) 
-    {
-        fprintf(stderr, "Error al asignar memoria\n");
-        exit(1);
-    }
-
-    zeros[0] = '1';  
-    int i = 1;
-    while (i < size - 1) 
-    {
-        zeros[i] = '0';  
-        i++;
-    }
-    zeros[size - 1] = '\0';  
-
-    write_numbers(zeros, number[n-3], number[n-2], number[n-1])
-    free(zeros);  
-}
 
 
-int ft_len(const char *str)
-{
+int ft_len(const char *str) {
     int n = 0;
     while (*str) {
         n++;
@@ -49,44 +12,60 @@ int ft_len(const char *str)
 }
 
 
-#include <stdio.h>
-#include <string.h>
+void zeros(int n) {
+    int size = (n * 3) + 2;
+    char *zeros = malloc(size * sizeof(char));
 
-void detect_series(char *number, int n) 
-{
+
+
+    zeros[0] = '1';  
+    int i = 1;
+    while (i < size - 1) {
+        zeros[i] = '0';  
+        i++;
+    }
+    zeros[size - 1] = '\0';  
+
+    printf("%s\n", zeros);
+    free(zeros);  
+}
+
+void factorial(char one, char two, char three) {
+    char *centenes = "100";
+    char *decenes = "10";
+
+    printf("%c\n", three);
+
+    if (two > '1') {
+        printf("%c0\n",two);
+    }
+    else if(two == '1' && three == '0')
+        printf("%c%c", two, one);
+
+    if (one > '0') {
+        printf("%s\n%c\n", centenes, one);
+    }
+}
+
+
+void detect_series(char *number, int n) {
     int groups = 0;
     
+    
+    
+    
 
-    while (n > 0)
-    {
+    while (n > 0) {
         groups++;
-        if (n >= 3) 
-        {
-            printf("Grupo %d: %c%c%c\n", groups, number[n-3], number[n-2], number[n-1]);
-            zero(groups, number[n-3], number[n-2], number[n-1]);
-        }   
-        else 
-        {
-            printf("Grupo %d: ", groups);
-            int j = 0;
-            while (j < n) 
-            {
-                printf("%c", number[j]);
-                j++;
-            }
-            printf("\n");
-        }
+        factorial(number[n - 3], number[n - 2], number[n - 1]);
+        zeros(groups);
         n -= 3;
     }
 
     printf("Total de grupos de tres: %d\n", groups);
 }
-
-
-int main(int argc, char **argv) 
-{
+int main(int argc, char **argv) {
     if (argc != 2) {
-        
         fprintf(stderr, "Uso: %s <cadena>\n", argv[0]);
         return 1;
     }
@@ -96,8 +75,5 @@ int main(int argc, char **argv)
     printf("El número es: %s\n", argv[1]);
     printf("El array tiene: %d dígitos\n", n);
 
-
-
     return 0;
 }
-
